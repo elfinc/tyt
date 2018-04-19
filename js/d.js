@@ -76,12 +76,12 @@ var $d = {
 
 
     {
-      url: '../img/c2.png',
+      url: 'img/c2.png',
       into: 0,
     },
 
     {
-      url: '../img/c3.png',
+      url: 'img/c3.png',
       into: 6,
       intoFn: '<',
       dir: '右',
@@ -89,27 +89,27 @@ var $d = {
     },
 
     {
-      url: '../img/c5.png',
+      url: 'img/c5.png',
       into: 2,
       dir: '左',
       len: 0,
     },
 
     {
-      url: '../img/c4.png',
+      url: 'img/c4.png',
       into: [3, 4, 8, 9],
       intoFn: '>',
     },
 
     {
-      url: '../img/c6.png',
+      url: 'img/c6.png',
       into: [2, 6, 12],
       intoFn: '<',
       dir: '右',
     },
 
     {
-      url: '../img/c7.png',
+      url: 'img/c7.png',
       into: 10,
       intoFn: '<',
     },
