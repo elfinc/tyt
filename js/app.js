@@ -324,16 +324,17 @@ function focusAning() {
 /** 聚能结束 */
 function focusOver() {
   isJumpOn = 2;
-  var bo1 = boxs[1].bog;
-  focusTw.stop();
-  focusTw = game.add.tween(bo1.scale);
-  focusTw.to({ y: 1 }, 50, ease.Linear.None);
-  focusTw.start();
   world.add(poi);
+  var bo1 = boxs[1].bog;
+  focusTw.pause();
+  bo1.scale.y *= 0.9;
+  focusTw = game.add.tween(bo1.scale);
+  focusTw.to({ y: 1 }, 150, ease.Back.Out);
+  focusTw.start();
   poi.position.set(bo1.x, bo1.y + poiOffset);
   poi.scale.y = 1;
   makeBoomShakaLaka(0, -110, bo1);
-  sounds.focus.fadeOut(80);
+  sounds.focus.fadeOut(Math.max(80, 200 - focusPower));
   sounds.focus.d_d = true;
   // 聚能爆炸
   Object.keys(focuParts).forEach(k => {
