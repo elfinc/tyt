@@ -327,13 +327,13 @@ function focusOver() {
   world.add(poi);
   var bo1 = boxs[1].bog;
   focusTw.pause();
-  bo1.scale.y *= 0.9;
   focusTw = game.add.tween(bo1.scale);
+  focusTw.to({ y: 1 + focusPower / 5000 + 0.02 }, 50, ease.Back.Out);
   focusTw.to({ y: 1 }, 150, ease.Back.Out);
   focusTw.start();
   poi.position.set(bo1.x, bo1.y + poiOffset);
   poi.scale.y = 1;
-  makeBoomShakaLaka(0, -110, bo1);
+  makeBoomShakaLaka(0, -110, bo1, boxs[0].bog.d_d.dir);
   sounds.focus.fadeOut(Math.max(80, 200 - focusPower));
   sounds.focus.d_d = true;
   // 聚能爆炸
@@ -354,7 +354,6 @@ function jumpStart() {
   tw.to({ x: nextPoi.x }, 250 + h / 1.5, ease.Linear.None);
   tw.onComplete.addOnce(jumpOver);
   var tw2 = game.add.tween(poi);
-  focusPower = 0;
   tw2.to({ y: poi.y - h }, 100 + h / 2.5, ease.Quintic.Out)
     .to({ y: nextPoi.y + poiOffset }, 50 + h / 2.5, ease.Quartic.In);
   tw2.onComplete.addOnce(jumpOver);
@@ -383,12 +382,15 @@ function jumpOver() {
     .start();
   b.bog.add(poi);
   poi.position.set(0, poiOffset);
+  focusPower /= 3;
   makeBoomShakaLaka(0, - 110, b.bog);
+  focusPower = 0;
   initNextBox();
 }
 
-function makeBoomShakaLaka(x, y, group) {
-  var length = Math.random() * 20;
+function makeBoomShakaLaka(x, y, group, dir) {
+  var length = Math.random() * 20 + focusPower / 15;
+  dir = dir || 0;
   for (var i = 0; i < length; i++) {
     var sp = game.add.sprite(x + Math.random() * 10 - 5, y + Math.random() * 6 - 3, parcir.w, null, group);
     sp.alpha = Math.random() * 0.3 + 0.7;
@@ -397,8 +399,9 @@ function makeBoomShakaLaka(x, y, group) {
     var time = 200 + Math.random() * 700;
     var tw = game.add.tween(sp.scale).to({ x: 0, y: 0 }, time);
     var tw2 = game.add.tween(sp).to({
-      x: x + Math.random() * 200 - 100,
-      y: y + Math.random() * -100
+      x: x + Math.random() * 200 - 100 +
+        -dir * (100 - 50 * Math.random() - focusPower / 10),
+      y: y + Math.random() * -100 - focusPower * Math.random()
     }, time + 100, ease.Circular.Out);
     tw2.onChildComplete.add(f => { sp.destroy(true) });
     tw.start();
